@@ -1,2 +1,2 @@
 # elv
-Elixir Liveveiw tests
+Elixir Liveview tests
