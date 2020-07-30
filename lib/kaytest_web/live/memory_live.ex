@@ -49,16 +49,6 @@ defmodule KaytestWeb.MemoryLive do
     <div class="column">    <img src="/images/back.png"></div>
     <div class="column">    <img src="/images/back.png"></div>
   </div>
-  <div class="row">
-    <div class="column">    <img src="/images/back.png"></div>
-    <div class="column">    <img src="/images/back.png"></div>
-    <div class="column">    <img src="/images/back.png"></div>
-    <div class="column">    <img src="/images/back.png"></div>
-    <div class="column">    <img src="/images/back.png"></div>
-    <div class="column">    <img src="/images/back.png"></div>
-    <div class="column">    <img src="/images/back.png"></div>
-
-  </div>
 
    <div id="dashboard">
       <div class="stats">
