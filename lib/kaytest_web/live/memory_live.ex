@@ -10,18 +10,13 @@ defmodule KaytestWeb.MemoryLive do
   def render(assigns) do
     ~L"""
 
-<div class="container">
 
-  <div class="row">
-    <div class="column">    <img src="/images/back.png"></div>
-    <div class="column">    <img src="/images/back.png"></div>
-    <div class="column">    <img src="/images/back.png"></div>
-    <div class="column">    <img src="/images/back.png"></div>
-    <div class="column">    <img src="/images/back.png"></div>
-    <div class="column">    <img src="/images/back.png"></div>
-    <div class="column">    <img src="/images/back.png"></div>
-  </div>
-  <div class="row">
+<h1 class="text-yellow-500 text-5xl font-bold text-center">Memory Challenge</h1>
+
+<div class="space-x-10 bg-grey rounded overflow-hidden  border-l  border-gray-400 p-4 p-10 flex justify-center" style="">
+ <div class=" rounded overflow-hidden shadow-lg w-2/3">
+
+  <div class="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-6">
     <div class="column">    <img src="/images/back.png"></div>
     <div class="column">    <img src="/images/back.png"></div>
     <div class="column">    <img src="/images/back.png"></div>
@@ -30,8 +25,6 @@ defmodule KaytestWeb.MemoryLive do
     <div class="column">    <img src="/images/back.png"></div>
     <div class="column">    <img src="/images/back.png"></div>
 
-  </div>
-  <div class="row">
     <div class="column">    <img src="/images/back.png"></div>
     <div class="column">    <img src="/images/back.png"></div>
     <div class="column">    <img src="/images/back.png"></div>
@@ -39,44 +32,45 @@ defmodule KaytestWeb.MemoryLive do
     <div class="column">    <img src="/images/back.png"></div>
     <div class="column">    <img src="/images/back.png"></div>
     <div class="column">    <img src="/images/back.png"></div>
-  </div>
-  <div class="row">
     <div class="column">    <img src="/images/back.png"></div>
-    <div class="column">    <img src="/images/back.png"></div>
-    <div class="column">    <img src="/images/back.png"></div>
-    <div class="column">    <img src="/images/back.png"></div>
-    <div class="column">    <img src="/images/back.png"></div>
-    <div class="column">    <img src="/images/back.png"></div>
-    <div class="column">    <img src="/images/back.png"></div>
-  </div>
 
-   <div id="dashboard">
-      <div class="stats">
-        <div class="stat">
-          <span class="value">
-	  1023
-          </span>
-          <span class="name">
-            Your points
-          </span>
-        </div>
-        <div class="stat">
-          <span class="value">
-2021
-          </span>
-          <span class="name">
-            Your oponent
-          </span>
-        </div>
-        <div class="stat">
-          <span class="value">
-    10
-          </span>
-          <span class="name">
-            Learning status
-          </span>
-        </div>
-	</div>
+    <div class="column">    <img src="/images/back.png"></div>
+    <div class="column">    <img src="/images/back.png"></div>
+    <div class="column">    <img src="/images/back.png"></div>
+    <div class="column">    <img src="/images/back.png"></div>
+    <div class="column">    <img src="/images/back.png"></div>
+
+  </div>
+</div> 
+
+
+<div class="space-y-2 w-1/3">
+
+<button class="bg-gray-200 hover:bg-gray-200  p-3 py-2 w-full rounded-lg text-gray-700 gap-4 xl:text-3xl desktop:text-yellow-500">
+  <div class="grid grid-cols-2 gap-4">
+  <div>Difficulty:</div><div> 20</div>
+</button>
+<button class="bg-gray-200 hover:bg-gray-200  p-3 py-2 w-full rounded-lg text-gray-700 xl:text-3xl">
+  <div class="grid grid-cols-2 gap-4">
+  <div>Points:</div><div> 231 </div>
+</div>
+</button>
+<button class="bg-gray-200 hover:bg-gray-200  p-3 py-2 w-full rounded-lg text-gray-700 xl:text-3xl">
+  <div class="grid grid-cols-2 gap-4">
+  <div>Progress:</div><div> 20 </div>
+</div>
+</button>
+
+<button class="bg-gray-200 hover:bg-gray-200  p-3 py-15 w-full rounded-lg text-gray-700">
+Here is some additional text that will allow us to inform the user about progress or others. Whatever you do, you will always be my number 1 
+</div>
+</button>
+
+</div>
+
+
+</div></div></div>
+
 
     """
     
