@@ -9,13 +9,14 @@ defmodule KaytestWeb.MemoryLive do
     end
 
     socket = assign_feedback(socket)
+    |> assign(:game, Memory.empty())
+    |> assign(:state, :noselected)
     {:ok, socket}
   end
 
   @impl true
   def render(assigns) do
     Phoenix.View.render(KaytestWeb.PageLiveView, "memory_live.html", assigns)
-
   end
 
   @impl true
@@ -23,10 +24,30 @@ defmodule KaytestWeb.MemoryLive do
     {:noreply, assign(socket, results: search(query), query: query)}
   end
 
-
   @impl true
   def handle_event("select", %{"cn" => cardnumber}, socket) do
+    # IO.puts("-----------------------")
+    # IO.puts(socket.assigns.game)
+    # IO.puts("-----------------------")
+    #case socket.assigns.state do
+    #  :noselected -> assign(socket, :oneselected)
+    #  :oneselected -> assign(socket, :noselected)
+    #  _ -> true
+    #end
     {:noreply, assign(socket, progress: cardnumber)}
+  end
+
+
+  @impl true
+  def handle_event("newgame", %{}, socket) do
+    
+    IO.puts("-----------------------")
+    IO.inspect(socket.assigns.game)
+    IO.puts("-----------------------")
+    newinfo = socket 
+    |> assign(:game, Memory.newgame())
+    |> assign(:state, :noselected)
+    {:noreply, newinfo}
   end
 
   @impl true
@@ -39,7 +60,8 @@ defmodule KaytestWeb.MemoryLive do
         {:noreply,
          socket
          |> put_flash(:error, "No dependencies found matching \"#{query}\"")
-         |> assign(results: %{}, query: query)}
+         |> assign(results: %{}, query: query)
+         |> assign(kay: %{}, robyn: query)}
     end
   end
 
@@ -74,5 +96,4 @@ end
 # defmodule KaytestWeb.MemoryLive do
 defmodule KaytestWeb.PageLiveView do
   use KaytestWeb, :view
-
 end
