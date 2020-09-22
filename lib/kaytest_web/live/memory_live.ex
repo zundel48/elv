@@ -25,16 +25,17 @@ defmodule KaytestWeb.MemoryLive do
   end
 
   @impl true
-  def handle_event("select", %{"cn" => cardnumber}, socket) do
-    # IO.puts("-----------------------")
-    # IO.puts(socket.assigns.game)
-    # IO.puts("-----------------------")
+  def handle_event("select", %{"cn" => card}, socket) do
+    IO.puts("-----------------------")
+    IO.puts(card)
+    
+    IO.puts("-----------------------")
     #case socket.assigns.state do
     #  :noselected -> assign(socket, :oneselected)
     #  :oneselected -> assign(socket, :noselected)
     #  _ -> true
     #end
-    {:noreply, assign(socket, progress: cardnumber)}
+    {:noreply, assign(socket, progress: 33) }
   end
 
 

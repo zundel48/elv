@@ -4,8 +4,8 @@
      <div class="w-full space-x-4 bg-grey rounded overflow-hidden  border-gray-400 p-10 flex justify-center" >
       <div class=" rounded   w-3/4">
         <div class="w-full grid grid-cols-3  desktop:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6"> 
-         <%= for imagenumber <- 1..24 do %>
-           <%= live_component @socket, CardComponent, number: imagenumber %>
+         <%= for card <- @game do %>
+           <%= live_component @socket, CardComponent, card: card %>
          <% end %>
         </div>
       </div> 
@@ -34,7 +34,12 @@
           Here is some additional text that will allow us to inform 
           the user about progress or others. Whatever you do, you will always be my number 1 
        </button>
-
+       <button class="text-white bg-yellow-800  hover:text-black hover:bg-gray-200  p-3 py-2 w-full rounded-lg  xl:text-3xl" phx-click="newgame">
+        <div class="grid grid-cols-2 gap-4">
+          <div>New Game</div>
+        </div>
+       </button>
+       
      </div>
      </div>
 
