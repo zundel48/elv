@@ -20,7 +20,7 @@ defmodule Kaytest.MixProject do
   def application do
     [
       mod: {Kaytest.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+       extra_applications: [:logger, :runtime_tools]
     ]
   end
 
@@ -46,7 +46,12 @@ defmodule Kaytest.MixProject do
       {:telemetry_poller, "~> 0.4"},
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
-      {:plug_cowboy, "~> 2.0"}
+      {:plug_cowboy, "~> 2.0"},
+      {:ex_check, "~> 0.12.0", only: :dev, runtime: false},
+      {:credo, ">= 0.0.0", only: :dev, runtime: false},
+      {:dialyxir, ">= 0.0.0", only: :dev, runtime: false},
+      {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
+      {:sobelow, ">= 0.0.0", only: :dev, runtime: false}
     ]
   end
 

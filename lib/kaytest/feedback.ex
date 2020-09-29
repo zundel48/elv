@@ -10,5 +10,4 @@ defmodule Kaytest.Feedback do
   def progress do
     Enum.random(1..55)
   end
-
 end

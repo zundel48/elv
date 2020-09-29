@@ -1,0 +1,109 @@
+     <h1 class="text-yellow-500 text-5xl font-bold text-center">Association training</h1>
+
+
+     <div class="w-full space-x-4 bg-grey rounded overflow-hidden  border-gray-400 p-10 flex justify-center" >
+      <div class=" rounded   w-3/4">
+        <div class="w-full grid grid-cols-3  desktop:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+          <%= for card <- @game do %>
+	       <%= if card.selected   do %>
+         <div class="column animate__animated animate__flipInX">
+
+       <img class="" src="<%= card.image %>" %>
+
+		 </div>
+
+	       <% else %>
+               <%= live_component @socket, CardComponent, card: card %>
+               <% end %>
+	   <% end %>
+        </div>
+      </div>
+      <div class="space-y-2 w-1/4">
+       <button class="bg-gray-200 hover:bg-gray-200  p-3 py-2 w-full rounded-lg text-gray-700 gap-4 xl:text-3xl desktop:text-yellow-500">
+         <div class="grid grid-cols-2 gap-4">
+           <div>Difficulty:</div><div><%= @difficulty %></div>
+    </div>
+       </button>
+       <button class="bg-gray-200 hover:bg-gray-200  p-3 py-2 w-full rounded-lg text-gray-700 xl:text-3xl">
+        <div class="grid grid-cols-2 gap-4">
+           <div>Points:</div><div><%= @points %> </div>
+        </div>
+       </button>
+       <button class="bg-gray-200 hover:bg-gray-200  p-3 py-2 w-full rounded-lg text-gray-700 xl:text-3xl">
+        <div class="grid grid-cols-2 gap-4">
+          <div>Progress:</div><div><%= @progress %></div>
+        </div>
+       </button>
+       <button class="bg-gray-200 hover:bg-gray-200  p-3 py-2 w-full rounded-lg text-gray-700 xl:text-3xl">
+        <div class="grid grid-cols-2 gap-4">
+          <div>Moves:</div><div><%= @moves %></div>
+        </div>
+       </button>
+       <button class="bg-gray-200 hover:bg-gray-200  p-3 py-15 w-full rounded-lg text-gray-700">
+          Here is some additional text that will allow us to inform
+          the user about progress or others. Whatever you do, you will always be my number 1
+       </button>
+       <button class="text-white bg-yellow-800  hover:text-black hover:bg-gray-200  p-3 py-2 w-full rounded-lg  xl:text-3xl" phx-click="newgame">
+        <div class="grid grid-cols-2 gap-4">
+          <div>New Game</div>
+        </div>
+       </button>
+
+     </div>
+     </div>
+
+
+<%= if @gameended   do %>
+<div class="fixed z-10 inset-0 overflow-y-auto">
+  <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+
+    <div class="fixed inset-0 transition-opacity">
+      <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+    </div>
+
+    <!-- This element is to trick the browser into centering the modal contents. -->
+    <span class="hidden sm:inline-block sm:align-middle sm:h-screen"></span>&#8203;
+    <!--
+      Modal panel, show/hide based on modal state.
+
+      Entering: "ease-out duration-300"
+        From: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+        To: "opacity-100 translate-y-0 sm:scale-100"
+      Leaving: "ease-in duration-200"
+        From: "opacity-100 translate-y-0 sm:scale-100"
+        To: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+    -->
+    <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full" role="dialog" aria-modal="true" aria-labelledby="modal-headline">
+      <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+        <div class="sm:flex sm:items-start">
+          <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+            <!-- Heroicon name: exclamation -->
+          </div>
+          <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+            <h3 class="text-4xl leading-6 font-medium text-gray-900" id="modal-headline">
+              You solved this round!
+            </h3>
+            <div class="mt-2">
+              <p class="text-xl leading-5 text-gray-500">
+                Game ended with <%= @moves %> Moves
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+        <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
+          <button type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-green-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none focus:border-red-700 focus:shadow-outline-red transition ease-in-out duration-150 sm:text-sm sm:leading-5" phx-click="newgame">
+            Continue
+          </button>
+        </span>
+        <span class="mt-3 flex w-full rounded-md shadow-sm sm:mt-0 sm:w-auto">
+          <button type="button" class="inline-flex justify-center w-full rounded-md border border-gray-300 px-4 py-2 bg-white text-base leading-6 font-medium text-gray-700 shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5">
+            Do something else
+          </button>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<% end %>
