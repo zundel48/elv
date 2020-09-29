@@ -6,7 +6,7 @@ module.exports = {
   variants: {},
     plugins: [
 	require('tailwindcss-animatecss')({
-            classes: ['animate__animated', 'animate__fadeIn', 'animate__bounceIn', 'animate__lightSpeedOut','animate__flipInX'
+            classes: ['animate__animated', 'animate__fadeIn', 'animate__bounceIn', 'animate__lightSpeedOut', 'animate__flipInX', 'animate__flipOutX'
 ],
             settings: {
 		animatedSpeed: 1000,

@@ -13,6 +13,7 @@ defmodule KaytestWeb.MemoryLive do
       |> assign(:game, Memory.empty())
       |> assign(:moves, 0)
       |> assign(:timerrunning, false)
+      |> assign(:gameended, false)
 
     {:ok, socket}
   end
@@ -33,7 +34,7 @@ defmodule KaytestWeb.MemoryLive do
       socket
       |> assign(:game, Memory.newgame())
       |> assign(:moves, 0)
-
+      |> assign(:gameended, false)
     {:noreply, socketnew}
   end
 
@@ -49,13 +50,9 @@ defmodule KaytestWeb.MemoryLive do
   end
 
   def handle_info(:finished, socket) do
-    socketnew =
-      socket
-      |> assign(:game, Memory.newgame())
-      |> assign(:moves, 0)
-
-    {:noreply, socketnew}
+    {:noreply, assign(socket, :gameended, true)}
   end
+
 
   def handle_info(:turncards, socket) do
     {:noreply, turncards(socket)}
