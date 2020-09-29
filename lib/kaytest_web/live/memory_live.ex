@@ -8,9 +8,12 @@ defmodule KaytestWeb.MemoryLive do
       :timer.send_interval(1000, self(), :update)
     end
 
-    socket = assign_feedback(socket)
-    |> assign(:game, Memory.empty())
-    |> assign(:state, :noselected)
+    socket =
+      assign_feedback(socket)
+      |> assign(:game, Memory.empty())
+      |> assign(:moves, 0)
+      |> assign(:timerrunning, false)
+
     {:ok, socket}
   end
 
@@ -20,69 +23,42 @@ defmodule KaytestWeb.MemoryLive do
   end
 
   @impl true
-  def handle_event("suggest", %{"q" => query}, socket) do
-    {:noreply, assign(socket, results: search(query), query: query)}
-  end
-
-  @impl true
   def handle_event("select", %{"cn" => card}, socket) do
-    IO.puts("-----------------------")
-    IO.puts(card)
-    
-    IO.puts("-----------------------")
-    #case socket.assigns.state do
-    #  :noselected -> assign(socket, :oneselected)
-    #  :oneselected -> assign(socket, :noselected)
-    #  _ -> true
-    #end
-    {:noreply, assign(socket, progress: 33) }
+    {:noreply, assign(socket, :game, Memory.domove(socket.assigns.game, card))}
   end
-
 
   @impl true
   def handle_event("newgame", %{}, socket) do
-    
-    IO.puts("-----------------------")
-    IO.inspect(socket.assigns.game)
-    IO.puts("-----------------------")
-    newinfo = socket 
-    |> assign(:game, Memory.newgame())
-    |> assign(:state, :noselected)
-    {:noreply, newinfo}
+    socketnew =
+      socket
+      |> assign(:game, Memory.newgame())
+      |> assign(:moves, 0)
+
+    {:noreply, socketnew}
   end
 
   @impl true
-  def handle_event("search", %{"q" => query}, socket) do
-    case search(query) do
-      %{^query => vsn} ->
-        {:noreply, redirect(socket, external: "https://hexdocs.pm/#{query}/#{vsn}")}
-
-      _ ->
-        {:noreply,
-         socket
-         |> put_flash(:error, "No dependencies found matching \"#{query}\"")
-         |> assign(results: %{}, query: query)
-         |> assign(kay: %{}, robyn: query)}
-    end
-  end
-
-  @impl true
-
   def handle_info(:update, socket) do
-    socket = assign_feedback(socket)
-    {:noreply, socket}
+    {:noreply, assign_feedback(socket)}
   end
 
-  defp search(query) do
-    if not KaytestWeb.Endpoint.config(:code_reloader) do
-      raise "action disabled when not in development"
-    end
+  def handle_info(:incmoves, socket) do
+    oldmoves = socket.assigns.moves
+    newmoves = oldmoves + 1
+    {:noreply, assign(socket, :moves, newmoves)}
+  end
 
-    for {app, desc, vsn} <- Application.started_applications(),
-        app = to_string(app),
-        String.starts_with?(app, query) and not List.starts_with?(desc, ~c"ERTS"),
-        into: %{},
-        do: {app, vsn}
+  def handle_info(:finished, socket) do
+    socketnew =
+      socket
+      |> assign(:game, Memory.newgame())
+      |> assign(:moves, 0)
+
+    {:noreply, socketnew}
+  end
+
+  def handle_info(:turncards, socket) do
+    {:noreply, turncards(socket)}
   end
 
   defp assign_feedback(socket) do
@@ -91,6 +67,17 @@ defmodule KaytestWeb.MemoryLive do
       points: Feedback.points(),
       progress: Feedback.progress()
     )
+  end
+
+  defp turncards(socket) do
+    game = socket.assigns.game
+    a = Memory.getselected(game)
+    game1 = Memory.deselect_card(game, a)
+    assign(socket, game: Memory.deselect_card(game1, Memory.getselected(game1)))
+  end
+
+  def starttimer() do
+    Process.send_after(self(), :turncards, 1_000)
   end
 end
 

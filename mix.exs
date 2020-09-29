@@ -20,7 +20,7 @@ defmodule Kaytest.MixProject do
   def application do
     [
       mod: {Kaytest.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+       extra_applications: [:logger, :runtime_tools]
     ]
   end
 

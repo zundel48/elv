@@ -19,6 +19,11 @@ defmodule Kaytest.Application do
       # {Kaytest.Worker, arg}
     ]
 
+    :ok = :telemetry.detach({Phoenix.Logger, [:phoenix, :socket_connected]})
+    :ok = :telemetry.detach({Phoenix.Logger, [:phoenix, :channel_joined]})
+    :ok = :telemetry.detach({Phoenix.Logger, [:phoenix, :router_dispatch, :start]})
+    :ok = :telemetry.detach({Phoenix.Logger, [:phoenix, :endpoint, :start]})
+
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: Kaytest.Supervisor]

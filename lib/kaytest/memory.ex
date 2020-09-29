@@ -1,79 +1,133 @@
 defmodule Card do
-  defstruct text: "", image: "/imgs/placeholder.gif", inuse: true, class: "none"
+  defstruct id: "",
+            text: "",
+            image: "/imgs/placeholder.gif",
+            inuse: true,
+            selected: false,
+            class: "none"
 end
 
 defmodule Memory do
-  defstruct text: "bla"
-
-  def addcard(game, card) do
-    [card | game]
-  end
-
   def newgame() do
     Enum.shuffle(init())
   end
 
   def init do
-    []
-    |> addcard(%Card{text: "Ballon", class: "Ballon"})
-    |> addcard(%Card{text: "Baum", class: "Baum"})
-    |> addcard(%Card{text: "Banane", class: "Banane"})
-    |> addcard(%Card{text: "Herz", class: "Herz"})
-    |> addcard(%Card{text: "Ballon", class: "Ballon"})
-    |> addcard(%Card{text: "Herz", class: "Herz"})
-    |> addcard(%Card{text: "Welt", class: "Welt"})
-    |> addcard(%Card{text: "Lastwagen", class: "Lastwagen"})
-    |> addcard(%Card{text: "Essen", class: "Essen"})
-    |> addcard(%Card{text: "Glas", class: "Glas"})
-    |> addcard(%Card{text: "Lastwagen", class: "Lastwagen"})
-    |> addcard(%Card{text: "Glas", class: "Glas"})
-    |> addcard(%Card{text: "Baum", class: "Baum"})
-    |> addcard(%Card{text: "Welt", class: "Welt"})
-    |> addcard(%Card{text: "Banane", class: "Banane"})
-    |> addcard(%Card{text: "Essen", class: "Essen"})
+    [
+      %Card{id: "ballon1", text: "Ballon1", class: "Ballon"},
+      %Card{id: "baum1", text: "Baum1", class: "Baum"},
+      %Card{id: "banane1", text: "Banane1", class: "Banane"},
+      %Card{id: "herz1", text: "Herz1", class: "Herz"},
+      %Card{id: "ballon2", text: "Ballon2", class: "Ballon"},
+      %Card{id: "herz2", text: "Herz2", class: "Herz"},
+      %Card{id: "welt1", text: "Welt1", class: "Welt"},
+      %Card{id: "lastwagen1", text: "Lastwagen1", class: "Lastwagen"},
+      %Card{id: "essen1", text: "Essen1", class: "Essen"},
+      %Card{id: "glas1", text: "Glas1", class: "Glas"},
+      %Card{id: "lastwagen2", text: "Lastwagen2", class: "Lastwagen"},
+      %Card{id: "glas2", text: "Glas2", class: "Glas"},
+      %Card{id: "baum2", text: "Baum2", class: "Baum"},
+      %Card{id: "welt2", text: "Welt2", class: "Welt"},
+      %Card{id: "banane2", text: "Banane2", class: "Banane"},
+      %Card{id: "essen2", text: "Essen2", class: "Essen"}
+    ]
   end
 
   def empty do
-    []
-    |> addcard(%Card{text: "dummy", class: "dummy", inuse: false})
-    |> addcard(%Card{text: "dummy", class: "dummy", inuse: false})
-    |> addcard(%Card{text: "dummy", class: "dummy", inuse: false})
-    |> addcard(%Card{text: "dummy", class: "dummy", inuse: false})
-    |> addcard(%Card{text: "dummy", class: "dummy", inuse: false})
-    |> addcard(%Card{text: "dummy", class: "dummy", inuse: false})
-    |> addcard(%Card{text: "dummy", class: "dummy", inuse: false})
-    |> addcard(%Card{text: "dummy", class: "dummy", inuse: false})
-    |> addcard(%Card{text: "dummy", class: "dummy", inuse: false})
-    |> addcard(%Card{text: "dummy", class: "dummy", inuse: false})
-    |> addcard(%Card{text: "dummy", class: "dummy", inuse: false})
-    |> addcard(%Card{text: "dummy", class: "dummy", inuse: false})
-    |> addcard(%Card{text: "dummy", class: "dummy", inuse: false})
-    |> addcard(%Card{text: "dummy", class: "dummy", inuse: false})
-    |> addcard(%Card{text: "dummy", class: "dummy", inuse: false})
-    |> addcard(%Card{text: "dummy", class: "dummy", inuse: false})
+    Enum.map(1..16, fn _ -> %Card{text: "dummy", class: "dummy", inuse: false} end)
   end
 
   def match(card1, card2) do
     card1.class == card2.class
   end
 
-  def check(game, card1, card2) do
-    if match(card1, card2) do
-      game
-      |> disable_card(card1)
-      |> disable_card(card2)
+  def isselected(game, id) do
+    a = select(game, id)
+    a.selected
+  end
+
+  def getselected(game) do
+    Enum.filter(game, fn x -> x.selected end)
+    |> Enum.at(0)
+  end
+
+  def numberselected(game) do
+    Enum.count(Enum.filter(game, fn x -> x.selected end))
+  end
+
+  def domove(game, id) do
+    ga =
+      if numberselected(game) >= 2 do
+        deselect_all(game)
+      else
+        game
+      end
+
+    a = getselected(ga)
+    b = select(ga, id)
+
+    if b.inuse do
+      if a do
+        if match(a, b) do
+          if a != b do
+            newgame =
+              ga
+              |> disable_card(a)
+              |> disable_card(b)
+              |> deselect_card(a)
+
+              checkfinished(newgame)
+            newgame
+          else
+            ga
+          end
+        else
+          select_card(ga, b)
+        end
+      else
+        send(self(), :incmoves)
+        select_card(ga, b)
+
+      end
     else
-      game
+      ga
     end
   end
 
-  def disable_card([], _card), do: []
+  def isinuse(game, id) do
+    a = select(game, id)
+    a.inuse
+  end
 
-  def disable_card([hd | tl], card) do
-    if hd == card do
-      [Map.replace!(card, :inuse, false) | disable_card(tl, card)]
-    else
-      [hd | disable_card(tl, card)]
+  @spec select(any, any) :: any
+  def select(game, id) do
+    Enum.filter(game, fn x -> x.id == id end)
+    |> Enum.at(0)
+  end
+
+  def checkfinished(game) do
+    if (Enum.all?(game, fn x -> x.inuse == false end)) do
+      send(self(), :finished)
     end
+  end
+
+  def select_card(game, card) do
+    Enum.map(game, fn x -> if x.id == card.id, do: Map.replace!(x, :selected, true), else: x end)
+  end
+
+  def deselect_card(game, nil) do
+    game
+  end
+
+  def deselect_card(game, card) do
+    Enum.map(game, fn x -> if x.id == card.id, do: Map.replace!(x, :selected, false), else: x end)
+  end
+
+  def deselect_all(game) do
+    Enum.map(game, fn x -> Map.replace!(x, :selected, false) end)
+  end
+
+  def disable_card(game, card) do
+    Enum.map(game, fn x -> if x.id == card.id, do: Map.replace!(x, :inuse, false), else: x end)
   end
 end

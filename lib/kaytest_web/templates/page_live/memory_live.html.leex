@@ -3,12 +3,22 @@
 
      <div class="w-full space-x-4 bg-grey rounded overflow-hidden  border-gray-400 p-10 flex justify-center" >
       <div class=" rounded   w-3/4">
-        <div class="w-full grid grid-cols-3  desktop:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6"> 
-         <%= for card <- @game do %>
-           <%= live_component @socket, CardComponent, card: card %>
-         <% end %>
+        <div class="w-full grid grid-cols-3  desktop:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+          <%= for card <- @game do %>
+	       <%= if card.selected   do %>
+               <div class="bg-gray-600 content-center text-3xl">
+		 <div class="align-middle">
+		   <br></br><center>
+		     <%= card.class %>
+		     </center>
+		 </div>
+	       </div>
+	       <% else %>
+               <%= live_component @socket, CardComponent, card: card %>
+               <% end %>
+	   <% end %>
         </div>
-      </div> 
+      </div>
       <div class="space-y-2 w-1/4">
        <button class="bg-gray-200 hover:bg-gray-200  p-3 py-2 w-full rounded-lg text-gray-700 gap-4 xl:text-3xl desktop:text-yellow-500">
          <div class="grid grid-cols-2 gap-4">
@@ -27,21 +37,18 @@
        </button>
        <button class="bg-gray-200 hover:bg-gray-200  p-3 py-2 w-full rounded-lg text-gray-700 xl:text-3xl">
         <div class="grid grid-cols-2 gap-4">
-          <div>Remaining:</div><div><%= @progress %></div>
+          <div>Moves:</div><div><%= @moves %></div>
         </div>
        </button>
        <button class="bg-gray-200 hover:bg-gray-200  p-3 py-15 w-full rounded-lg text-gray-700">
-          Here is some additional text that will allow us to inform 
-          the user about progress or others. Whatever you do, you will always be my number 1 
+          Here is some additional text that will allow us to inform
+          the user about progress or others. Whatever you do, you will always be my number 1
        </button>
        <button class="text-white bg-yellow-800  hover:text-black hover:bg-gray-200  p-3 py-2 w-full rounded-lg  xl:text-3xl" phx-click="newgame">
         <div class="grid grid-cols-2 gap-4">
           <div>New Game</div>
         </div>
        </button>
-       
+
      </div>
      </div>
-
-
-   
