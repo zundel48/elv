@@ -7,7 +7,7 @@ defmodule CardComponent do
       <button phx-click="select" phx-value-cn="<%= @card.id %>"> <%= if @card.inuse do %>
       <img class="animate__flipInX" src="images/back.png">
       <% else %>
-      <img class="opacity-25 animate__flipInX" src="images/back.png">
+      <img class="opacity-25 animate__flipInX" src="/images/back.png">
       <% end %></button>
     </div>
     """

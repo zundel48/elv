@@ -14,22 +14,22 @@ defmodule Memory do
 
   def init do
     [
-      %Card{id: "ballon1", text: "Ballon1", class: "Ballon"},
-      %Card{id: "baum1", text: "Baum1", class: "Baum"},
-      %Card{id: "banane1", text: "Banane1", class: "Banane"},
-      %Card{id: "herz1", text: "Herz1", class: "Herz"},
-      %Card{id: "ballon2", text: "Ballon2", class: "Ballon"},
-      %Card{id: "herz2", text: "Herz2", class: "Herz"},
-      %Card{id: "welt1", text: "Welt1", class: "Welt"},
-      %Card{id: "lastwagen1", text: "Lastwagen1", class: "Lastwagen"},
-      %Card{id: "essen1", text: "Essen1", class: "Essen"},
-      %Card{id: "glas1", text: "Glas1", class: "Glas"},
-      %Card{id: "lastwagen2", text: "Lastwagen2", class: "Lastwagen"},
-      %Card{id: "glas2", text: "Glas2", class: "Glas"},
-      %Card{id: "baum2", text: "Baum2", class: "Baum"},
-      %Card{id: "welt2", text: "Welt2", class: "Welt"},
-      %Card{id: "banane2", text: "Banane2", class: "Banane"},
-      %Card{id: "essen2", text: "Essen2", class: "Essen"}
+      %Card{id: "ballon1", text: "Ballon1", class: "Ballon", image: "/images/ballon.png"},
+      %Card{id: "baum1", text: "Baum1", class: "Baum", image: "/images/baum.png"},
+      %Card{id: "banane1", text: "Banane1", class: "Banane", image: "/images/banane.png"},
+      %Card{id: "herz1", text: "Herz1", class: "Herz", image: "/images/herz.png"},
+      %Card{id: "ballon2", text: "Ballon2", class: "Ballon", image: "/images/ballon.png" },
+      %Card{id: "herz2", text: "Herz2", class: "Herz", image: "/images/herz.png"},
+      %Card{id: "welt1", text: "Welt1", class: "Welt", image: "/images/welt.png"},
+      %Card{id: "lastwagen1", text: "Lastwagen1", class: "Lastwagen", image: "/images/lastwagen.png"},
+      %Card{id: "essen1", text: "Essen1", class: "Essen", image: "/images/essen.png"},
+      %Card{id: "glas1", text: "Glas1", class: "Glas", image: "/images/glas.png"},
+      %Card{id: "lastwagen2", text: "Lastwagen2", class: "Lastwagen", image: "/images/lastwagen.png"},
+      %Card{id: "glas2", text: "Glas2", class: "Glas", image: "/images/glas.png"},
+      %Card{id: "baum2", text: "Baum2", class: "Baum", image: "/images/baum.png"},
+      %Card{id: "welt2", text: "Welt2", class: "Welt", image: "/images/welt.png"},
+      %Card{id: "banane2", text: "Banane2", class: "Banane", image: "/images/banane.png"},
+      %Card{id: "essen2", text: "Essen2", class: "Essen", image: "/images/essen.png"}
     ]
   end
 

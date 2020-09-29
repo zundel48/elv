@@ -6,13 +6,12 @@
         <div class="w-full grid grid-cols-3  desktop:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
           <%= for card <- @game do %>
 	       <%= if card.selected   do %>
-               <div class="bg-gray-600 content-center text-3xl">
-		 <div class="align-middle">
-		   <br></br><center>
-		     <%= card.class %>
-		     </center>
+         <div class="column">
+
+       <img class="animate__flipInX" src="<%= card.image %>" %>
+
 		 </div>
-	       </div>
+
 	       <% else %>
                <%= live_component @socket, CardComponent, card: card %>
                <% end %>
