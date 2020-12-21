@@ -19,34 +19,12 @@ defmodule KayTest.MemoryTest do
     end
 
     test "an freshly initialized Game has 16 cards" do
-      game = Memory.init()
-      assert (length(game) == 16)
+      game = Memory.init(8)
+      assert length(game) == 16
     end
-      
+
     test "a shuffeled game if different (most of the time)" do
-      refute Memory.init() == newgame(Memory.init())
+      refute Memory.init(8) == newgame(8)
     end
-
-    test "check on pair will result in unmodified game " do
-      game = Memory.init()
-      a = %Card{text: "Ballon", class: "Ballon"}
-      b = %Card{text: "Hammer", class: "Hammer"}
-      assert check( game, a, b) == game
-    end
-
-    test "with matching part change game" do
-      game = Memory.init()
-      a = %Card{text: "Ballon", class: "Ballon"}
-      refute check( game, a, a) == game
-    end
-
-    test "updated game afte check has still 16 cards" do
-      game = Memory.init()
-      a = %Card{text: "Ballon", class: "Ballon"}
-      assert length( check( game, a, a)) == 16
-    end
-
-    
-    
   end
 end

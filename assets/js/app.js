@@ -31,3 +31,13 @@ liveSocket.connect()
 // >> liveSocket.enableDebug()
 // >> liveSocket.enableLatencySim(1000)
 window.liveSocket = liveSocket
+
+// The following is a hack to play audio.
+// We observe DOM element creation events underneath the element with ID "sound-fx".
+// Those nodes have attributes that describe the audio file to play.
+// I did try rendering <audio> elements from the live view but that made Chrome go janky.
+// No idea why.
+
+
+
+

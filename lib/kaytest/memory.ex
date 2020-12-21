@@ -8,33 +8,44 @@ defmodule Card do
 end
 
 defmodule Memory do
-  def newgame() do
-    Enum.shuffle(init())
+  def newgame(numpairs) do
+    Enum.shuffle(init(numpairs))
   end
 
-  def init do
+  def init(num) do
     [
       %Card{id: "ballon1", text: "Ballon1", class: "Ballon", image: "/images/ballon.png"},
+      %Card{id: "ballon2", text: "Ballon2", class: "Ballon", image: "/images/ballon.png"},
       %Card{id: "baum1", text: "Baum1", class: "Baum", image: "/images/baum.png"},
+      %Card{id: "baum2", text: "Baum2", class: "Baum", image: "/images/baum.png"},
       %Card{id: "banane1", text: "Banane1", class: "Banane", image: "/images/banane.png"},
+      %Card{id: "banane2", text: "Banane2", class: "Banane", image: "/images/banane.png"},
       %Card{id: "herz1", text: "Herz1", class: "Herz", image: "/images/herz.png"},
-      %Card{id: "ballon2", text: "Ballon2", class: "Ballon", image: "/images/ballon.png" },
       %Card{id: "herz2", text: "Herz2", class: "Herz", image: "/images/herz.png"},
       %Card{id: "welt1", text: "Welt1", class: "Welt", image: "/images/welt.png"},
-      %Card{id: "lastwagen1", text: "Lastwagen1", class: "Lastwagen", image: "/images/lastwagen.png"},
-      %Card{id: "essen1", text: "Essen1", class: "Essen", image: "/images/essen.png"},
-      %Card{id: "glas1", text: "Glas1", class: "Glas", image: "/images/glas.png"},
-      %Card{id: "lastwagen2", text: "Lastwagen2", class: "Lastwagen", image: "/images/lastwagen.png"},
-      %Card{id: "glas2", text: "Glas2", class: "Glas", image: "/images/glas.png"},
-      %Card{id: "baum2", text: "Baum2", class: "Baum", image: "/images/baum.png"},
       %Card{id: "welt2", text: "Welt2", class: "Welt", image: "/images/welt.png"},
-      %Card{id: "banane2", text: "Banane2", class: "Banane", image: "/images/banane.png"},
-      %Card{id: "essen2", text: "Essen2", class: "Essen", image: "/images/essen.png"}
+      %Card{
+        id: "lastwagen1",
+        text: "Lastwagen1",
+        class: "Lastwagen",
+        image: "/images/lastwagen.png"
+      },
+      %Card{
+        id: "lastwagen2",
+        text: "Lastwagen2",
+        class: "Lastwagen",
+        image: "/images/lastwagen.png"
+      },
+      %Card{id: "essen1", text: "Essen1", class: "Essen", image: "/images/essen.png"},
+      %Card{id: "essen2", text: "Essen2", class: "Essen", image: "/images/essen.png"},
+      %Card{id: "glas1", text: "Glas1", class: "Glas", image: "/images/glas.png"},
+      %Card{id: "glas2", text: "Glas2", class: "Glas", image: "/images/glas.png"}
     ]
+    |> Enum.slice(0, 2 * num)
   end
 
   def empty do
-    Enum.map(1..16, fn _ -> %Card{text: "dummy", class: "dummy", inuse: false} end)
+    Enum.map(1..8, fn _ -> %Card{text: "dummy", class: "dummy", inuse: false} end)
   end
 
   def match(card1, card2) do
@@ -76,7 +87,8 @@ defmodule Memory do
               |> disable_card(b)
               |> deselect_card(a)
 
-              checkfinished(newgame)
+            send(self(), :incpairs)
+            checkfinished(newgame)
             newgame
           else
             ga
@@ -87,7 +99,6 @@ defmodule Memory do
       else
         send(self(), :incmoves)
         select_card(ga, b)
-
       end
     else
       ga
@@ -106,9 +117,25 @@ defmodule Memory do
   end
 
   def checkfinished(game) do
-    if (Enum.all?(game, fn x -> x.inuse == false end)) do
+    if Enum.all?(game, fn x -> x.inuse == false end) do
       send(self(), :finished)
     end
+  end
+
+  def gamesize(moves, pairs) do
+    pairsnew =
+      cond do
+        moves <= pairs * 1.5 + 1 ->
+          pairs + 1
+
+        moves > pairs * 2 ->
+          pairs - 1
+
+        true ->
+          pairs
+      end
+
+    min(max(pairsnew, 4), 16)
   end
 
   def select_card(game, card) do
